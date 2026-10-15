@@ -2,24 +2,19 @@
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title UsdenToken
- * @dev Simple ERC20 Token named "Usden" with symbol "USDEN".
- *      This is a straightforward ERC20 implementation using OpenZeppelin.
- *      It's provided as a fork/starting point for a USDT-like token labeled "Usden".
+ * @dev ERC20 Token named "Usden" with symbol "USDEN".
+ *      Fixed total supply minted at deployment: 2,100,000,000 USDEN (18 decimals).
+ *      No owner-only mint function to keep supply stable.
  */
-contract UsdenToken is ERC20, Ownable {
-    constructor(uint256 initialSupply) ERC20("Usden", "USDEN") {
-        _mint(msg.sender, initialSupply * (10 ** decimals()));
-    }
+contract UsdenToken is ERC20 {
+    // Total supply: 2,100,000,000 tokens with 18 decimals
+    uint256 public constant INITIAL_SUPPLY = 2100000000 * (10 ** 18);
 
-    /**
-     * @dev Mint new tokens. Only the owner can call this.
-     */
-    function mint(address to, uint256 amount) external onlyOwner {
-        _mint(to, amount);
+    constructor() ERC20("Usden", "USDEN") {
+        _mint(msg.sender, INITIAL_SUPPLY);
     }
 
     /**
